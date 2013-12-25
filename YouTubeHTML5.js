@@ -367,7 +367,18 @@ UI_DOWNLOAD_LINK.addEventListener("click", function () {
             break;
         }
     }
-    this.download = encodeFilePath(document.title.replace(/^\u25B6\s/, "").replace(/\s-\sYouTube$/, "") + x);
+
+    var title = document.getElementById("eow-title");
+    if (!title) {
+        // For Feather mode
+        title = document.getElementById("vt");
+        if (!title) {
+            throw new Error("Cannot find title");
+        }
+    }
+
+    // Strip whitespace at the beginning and end
+    this.download = encodeFilePath(title.textContent.replace(/^\s+|\s+$/g, "") + x);
     this.href = HTML5_VIDEO.src;
 });
 
