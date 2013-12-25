@@ -287,12 +287,12 @@ UI_SIZE_LABEL.textContent = TEXT_SIZE_UNCHECKED;
 // events /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function encodeFilePath(s) {
-  // Unix:    nul /
-  // Windows: nul / \ : * ? " < > |
-  // % is also encoded because it's the character used for percent-encoding
-  return s.replace(/[%\u0000\/\\\:\*\?\"\<\>\|]/g, function (s) {
-    return encodeURIComponent(s);
-  });
+    // Unix:    nul /
+    // Windows: nul / \ : * ? " < > |
+    // % is also encoded because it's the character used for percent-encoding
+    return s.replace(/[%\u0000\/\\\:\*\?\"\<\>\|]/g, function (s) {
+        return encodeURIComponent(s);
+    });
 }
 
 UI_TOGGLE_CHECKBOX.addEventListener("change", function () {
