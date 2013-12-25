@@ -286,6 +286,15 @@ UI_SIZE_LABEL.textContent = TEXT_SIZE_UNCHECKED;
 
 // events /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+function encodeFilePath(s) {
+  // Unix:    nul /
+  // Windows: nul / \ : * ? " < > |
+  // % is also encoded because it's the character used for percent-encoding
+  return s.replace(/[%\u0000\/\\\:\*\?\"\<\>\|]/g, function (s) {
+    return encodeURIComponent(s);
+  });
+}
+
 UI_TOGGLE_CHECKBOX.addEventListener("change", function () {
     if (this.disabled) {
         this.title = TEXT_TOGGLE_DISABLED;
@@ -358,7 +367,7 @@ UI_DOWNLOAD_LINK.addEventListener("click", function () {
             break;
         }
     }
-    this.download = document.title.replace(/^\u25B6\s/, "").replace(/\s-\sYouTube$/, "") + x;
+    this.download = encodeFilePath(document.title.replace(/^\u25B6\s/, "").replace(/\s-\sYouTube$/, "") + x);
     this.href = HTML5_VIDEO.src;
 });
 
