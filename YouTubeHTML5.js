@@ -8,6 +8,7 @@ var YOUTUBE_AJAX          = false,
     YOUTUBE_OBSERVER      = null,
     YOUTUBE_PLAYER        = null,
     YOUTUBE_WATCH         = null,
+    YOUTUBE_TITLE         = null,
     STATE_VIDEO_TIME      = 0,
     STATE_VIDEO_RATE      = 1,
     HTML5_PLAYER          = document.createElement("div"),
@@ -368,17 +369,7 @@ UI_DOWNLOAD_LINK.addEventListener("click", function () {
         }
     }
 
-    var title = document.getElementById("eow-title");
-    if (!title) {
-        // For Feather mode
-        title = document.getElementById("vt");
-        if (!title) {
-            throw new Error("Cannot find title");
-        }
-    }
-
-    // Strip whitespace at the beginning and end
-    this.download = encodeFilePath(title.textContent.replace(/^\s+|\s+$/g, "") + x);
+    this.download = encodeFilePath(YOUTUBE_TITLE + x);
     this.href = HTML5_VIDEO.src;
 });
 
@@ -438,6 +429,7 @@ function init(streamMap) {
 
     YOUTUBE_PLAYER = null;
     YOUTUBE_WATCH = null;
+    YOUTUBE_TITLE = null;
 
     STATE_VIDEO_TIME = 0;
     STATE_VIDEO_RATE = 1;
@@ -494,6 +486,19 @@ function init(streamMap) {
             } else {
                 throw new Error("Failed to insert toolbar");
             }
+        }
+
+        if (YOUTUBE_FEATHER) {
+            YOUTUBE_TITLE = document.getElementById("vt");
+        } else {
+            YOUTUBE_TITLE = document.getElementById("eow-title");
+        }
+
+        if (YOUTUBE_TITLE) {
+            // Strip whitespace at the beginning and end
+            YOUTUBE_TITLE = YOUTUBE_TITLE.textContent.replace(/^\s+|\s+$/g, "");
+        } else {
+            throw new Error("Cannot find title");
         }
 
         // source
